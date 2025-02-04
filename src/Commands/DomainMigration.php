@@ -54,18 +54,6 @@ class DomainMigration extends Command
 
             $this->info('Start migration from '.$domain['title']);
 
-            if($domain['title'] === 'flowgiri'){
-                Config::set('database.connections.mysql.prefix', 'flowgiri_');
-                DB::purge('mysql');
-                DB::connection('mysql');
-            }
-
-            if($domain['title'] === 'ezytor'){
-                Config::set('database.connections.mysql.prefix', 'ezytor_');
-                DB::purge('mysql');
-                DB::connection('mysql');
-            }
-
             $this->call('migrate',  ['--path' => $domain['path'].'../database/migrations', ...$forceOption]);
 
             $this->info('Completed migration from '.$domain['title']);

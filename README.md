@@ -1,10 +1,45 @@
 
-## for SSR
+## Sample config/package.php
 
-```shell
-       "ssr:server": "node ./vendor/zupitar-doplac/domain-driven-development/src/server-side-render/index.js",
-        "build:ssr": "SSR_PREVIEW=sst_preview npm run build:client && npm run build:server",
-        "build:client": "vite build --ssrManifest --outDir bootstrap/ssr",
-        "build:server": "vite build --ssr ./vendor/zupitar-doplac/domain-driven-development/src/server-side-render/server-entry.js --outDir bootstrap/ssr/server"
-   
+```php
+
+<?php declare(strict_types=1);
+
+return [
+    'locations' => ['/domains'],
+
+    'status' => [
+        'doplac.cms' => true,
+    ],
+];
+
+
+```
+
+## Sample domains/Cms/index.php
+
+```php
+
+<?php declare(strict_types=1);
+
+return [
+    'id' => 'doplac.cms',
+    'autoload' => [
+        'CMS\\' => 'app/',
+        "CMS\\Factories\\" => "database/factories/",
+        "CMS\\Seeders\\" => "database/seeders/",
+    ],
+    'providers' => [
+        \CMS\Providers\RouteServiceProvider::class
+    ],
+    'schedules' => [
+        'app/Console/Schedule.php',
+    ],
+    "config" => [
+        'cms.services' => 'services.php'
+    ],
+    'commands' => 'app/Console/Commands',
+];
+
+
 ```
