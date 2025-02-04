@@ -20,8 +20,7 @@
     ],
     "classmap": [
       "src/Commands/GeneratorCommand.php",
-      "src/Commands/BaseCommand.php",
-      "src/Translation/TranslationServiceProvider.php"
+      "src/Commands/BaseCommand.php"
     ],
     "psr-4": {
       "ZupiterDoplac\\Domain\\": "/src"
