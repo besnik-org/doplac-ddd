@@ -50,14 +50,13 @@ class DomainDrivenServiceProvider extends ServiceProvider
                 }
             }
 
-            if ( app()->runningInConsole() && isset($activePackage['commands']) && $activePackage['commands']) {
+            if ( app()->runningInConsole() && isset($activePackage['has_commands']) && $activePackage['has_commands']) {
 
-                $configs =  $activePackage['config'];
                 $appNamespace = array_search("app/", $activePackage['autoload'], true);
 
-                foreach (File::allFiles($activePackage['path'].DIRECTORY_SEPARATOR.$activePackage['commands']) as $file) {
+                foreach (File::allFiles($activePackage['path'].DIRECTORY_SEPARATOR.'app/Console/Commands') as $file) {
                     $fileName = explode('.', $file->getFilename())[0];
-                    $commands[] = '\\'.$appNamespace.'Console\\Commands\\'.$fileName;
+                    $commands[] = '\\'.$appNamespace.'Console\\Commands\\'.$fileName; 
                 }
             }
         }
