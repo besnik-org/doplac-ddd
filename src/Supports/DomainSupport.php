@@ -53,7 +53,6 @@ class DomainSupport
     {
         $storagePath = storage_path('app/domain-data.php');
 
-
         if (!file_exists($storagePath)) {
 
             File::ensureDirectoryExists(storage_path('app'));
@@ -90,89 +89,32 @@ class DomainSupport
 
         ksort($autoload);
         $seeders = [];
-        $domains = [];
+        $domains = [
+          "app" => [
+                'title' => 'app',
+                'namespace' => 'App\\',
+                'real_path' => 'app'
+          ]
+        ];
         $factories = [];
 
-        foreach ($autoload as $namespace => $path) {
-            if (!is_dir(base_path($path))) {
-                continue;
-            }
+        $allDomainFiles = glob(base_path('domains').'/*/index.php', GLOB_NOSORT);
 
-            if ($namespace == 'App\\') {
-                $title = 'app';
-            } else {
-                $pattern = '/domains\/([^\/]+)\//';
-                preg_match($pattern, $path, $matches);
-                $title = trim($matches[1] ?? $namespace, '\\');
-            }
+        foreach ($allDomainFiles as $file) {
+            $config = include $file;
+            $split = explode('/', $file);
 
-            $data = [
+            $title = $split[count($split)-2];
+            
+            $domains[$title] = [
                 'title' => $title,
-                'namespace' => $namespace,
-                'path' => $path,
-                'real_path' => str_replace(base_path(), '', base_path($path)),
-                'config_files' => [],
-                'providers' => [],
-                'commands' => [],
+                'namespace' => array_keys($config['autoload'])[0],
+                'real_path' => 'domains'.DIRECTORY_SEPARATOR.$title.DIRECTORY_SEPARATOR.'app',
             ];
 
-            if (Str::contains($path, 'seeders')) {
-                $seeders[$title] = $data;
-
-                continue;
-            }
-
-            if (Str::contains($path, 'app')) {
-
-                $domains[$title] = $data;
-
-                if($title !== 'app'){
-
-                    $files = File::allFiles(base_path($path).'../config');
-
-                    foreach ($files as $file) {
-                        $configName = explode('.', $file->getFilename())[0] ?? null;
-
-
-                        $domains[$title]['config_files'][] = [
-                            'path' => str_replace(base_path(), '',$file->getRealPath()),
-                            'name' => $configName
-                        ];
-                    }
-
-
-                    if (is_dir(base_path($path).'Providers')) {
-                        foreach (File::allFiles(base_path($path).'Providers') as $file) {
-                            $fileName = explode('.', $file->getFilename())[0];
-
-                            $domains[$title]['providers'][] = [
-                                'path' => '\\'.$data['namespace'].'Providers\\'.$fileName,
-                            ];
-
-                        }
-                    }
-
-
-                    if (is_dir(base_path($path).'Console/Commands')) {
-
-                        foreach (File::allFiles(base_path($path).'Console/Commands') as $file) {
-                            $fileName = explode('.', $file->getFilename())[0];
-                            $domains[$title]['commands'][] = [
-                                'path' => '\\'.$data['namespace'].'Console\\Commands\\'.$fileName,
-                            ];
-                        }
-                    }
-
-                }
-
-                continue;
-            }
-
-            if (Str::contains($path, 'factories')) {
-                $factories[$title] = $data;
-            }
-
+//            dd($domains);
         }
+
 
         return [
             'factories' => $factories,

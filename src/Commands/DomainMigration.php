@@ -48,13 +48,14 @@ class DomainMigration extends Command
         $support = DomainSupport::init(true);
         $domains =  $support->getDomains();
 
+      
         unset($domains['app']);
 
         foreach ($domains as $domain) {
 
             $this->info('Start migration from '.$domain['title']);
-
-            $this->call('migrate',  ['--path' => $domain['path'].'../database/migrations', ...$forceOption]);
+            
+            $this->call('migrate',  ['--path' => $domain['real_path'].'/../database/migrations', ...$forceOption]);
 
             $this->info('Completed migration from '.$domain['title']);
 

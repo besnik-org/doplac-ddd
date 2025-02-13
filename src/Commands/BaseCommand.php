@@ -76,7 +76,7 @@ class BaseCommand extends Command
         }
 
         $this->getDomain();
-
-        return base_path($this->domain['real_path']).'../database'.DIRECTORY_SEPARATOR.'migrations';
+      
+        return base_path($this->domain['real_path'].DIRECTORY_SEPARATOR.'../database'.DIRECTORY_SEPARATOR.'migrations');
     }
 }
