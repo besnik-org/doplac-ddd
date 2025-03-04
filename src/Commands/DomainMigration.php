@@ -48,8 +48,15 @@ class DomainMigration extends Command
         $support = DomainSupport::init(true);
         $domains =  $support->getDomains();
 
-      
-        unset($domains['app']);
+        $desiredOrder = [
+            'EmailMarketing', 'ColdOutreach', 'TeamInbox', 'Booking', 'BillingInvoice',
+            'Social', 'Cms', 'ClientPortal', 'Support', 'MediaLibrary', 'Automation', 'ProjectManagement'
+        ];
+
+        $sortedArray = array_merge(array_flip($desiredOrder), $domains);
+        $sortedArray = array_intersect_key($sortedArray, $domains);
+
+        $domains =  $sortedArray;
 
         foreach ($domains as $domain) {
 
