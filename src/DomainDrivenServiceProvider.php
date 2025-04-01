@@ -104,9 +104,6 @@ class DomainDrivenServiceProvider extends ServiceProvider
 
 
         $this->activePackages = $activePackages;
-
-
-        $manager->load( $this->activePackages );
     }
 
 }
