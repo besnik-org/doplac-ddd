@@ -49,8 +49,8 @@ class DomainMigration extends Command
         $domains =  $support->getDomains();
 
         $desiredOrder = [
-            'EmailMarketing', 'ColdOutreach', 'TeamInbox', 'Booking', 'BillingInvoice',
-            'Social', 'Cms', 'ClientPortal', 'Support', 'MediaLibrary', 'Automation', 'ProjectManagement'
+            'EmailMarketing', 'ColdOutreach', 'TeamInbox', 'Booking', 
+            'Social', 'Cms', 'ClientPortal','BillingInvoice', 'Support', 'MediaLibrary', 'Automation', 'ProjectManagement'
         ];
 
         $sortedArray = array_merge(array_flip($desiredOrder), $domains);
