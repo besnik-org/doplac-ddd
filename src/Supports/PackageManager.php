@@ -33,6 +33,8 @@ class PackageManager
             }
         }
     }
+    
+/** 
 
     public function load(array $packages): void
     {
@@ -68,6 +70,7 @@ class PackageManager
             }
         });
     }
-
+  
+ */
 
 }

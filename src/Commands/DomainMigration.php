@@ -50,7 +50,7 @@ class DomainMigration extends Command
 
         $desiredOrder = [
             'EmailMarketing', 'ColdOutreach', 'TeamInbox', 'Booking', 
-            'Social', 'Cms', 'ClientPortal','BillingInvoice', 'Support', 'MediaLibrary', 'Automation', 'ProjectManagement'
+            'Social', 'Cms', 'BillingInvoice', 'ClientPortal', 'Support', 'MediaLibrary', 'Automation', 'ProjectManagement'
         ];
 
         $sortedArray = array_merge(array_flip($desiredOrder), $domains);
